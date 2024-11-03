@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  column-gap: 5px;
+}
+
+.test-input {
+  padding: 13px 15px 7px 15px;
+  box-sizing: border-box;
+  border: 1px solid rgb(195, 195, 195);
+  border-radius: 3px;
+  background: rgb(255, 255, 255);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 22px;
+  color: rgb(0, 0, 0);
+  font-family: sans-serif;
+  width: 100%;
+  outline: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Для Firefox */
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    border: none;
+    outline: none;
+    flex: 1;
+    transition: ease-in-out .1s;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #c0c0c0;
+  }
+
+  button:active {
+    background-color: #6c6c6c;
+    color: #fff;
+  }
+
+  button:first-child {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom: 1px solid gray;
+  }
+
+  button:last-child {
+    border-top: 1px solid gray;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+}

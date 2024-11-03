@@ -1,0 +1,76 @@
+.select-wrapper {
+  position: relative;
+}
+
+.select {
+  padding: 12px 30px 8px 15px;
+  box-sizing: border-box;
+  border: 1px solid rgb(195, 195, 195);
+  border-radius: 3px;
+  background: rgb(255, 255, 255);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 22px;
+  color: rgb(0, 0, 0);
+  font-family: sans-serif;
+  outline: none;
+  min-height: 44px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+
+  .value {
+    flex: 1;
+  }
+
+  .arrow {
+    width: 10px;
+    height: 10px;
+    rotate: 45deg;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    transition: ease-in-out .1s;
+    margin-bottom: 5px;
+  }
+}
+.arrow-up {
+  transform: scale(-1);
+}
+
+.options {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  border-radius: 3px;
+  margin-top: 4px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  background: #fff;
+  min-height: 100px;
+  max-height: 300px;
+  height: fit-content;
+  overflow-y: auto;
+  border: 1px solid rgb(0 0 0 / 18%);
+  box-shadow: 3px 3px 3px rgb(0 0 0 / 18%)
+}
+
+.option {
+  &:hover {
+    background-color: rgb(255, 231, 131);
+  }
+  transition: ease-in-out .1s;
+  box-sizing: border-box;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 22px;
+  padding: 10px 30px 10px 15px;
+  cursor: pointer;
+}
+
+.active {
+  background-color: rgb(255, 218, 66);
+}
