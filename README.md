@@ -1,27 +1,22 @@
-# DynamicCVAForm
+# Форма динамической генерации и редактирования
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+Этот проект представляет собой динамически генерируемую форму, которая может быть создана на основе JSON-конфигурации, полученной с сервера. Форма поддерживает редактирование, валидацию полей и отправку данных на сервер в виде единой модели testForm.
 
-## Development server
+## Динамическая генерация формы
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Форма создается на основе JSON-конфигурации, которая включает в себя следующие поля:
+- name (обязательно): Значение поля.
+- label (обязательно): Название поля.
+- value (необязательно): предзаполненный данные поля.
+- description (необязательно): Описание поля.
+- required (необязательно): Яляется ли поле обязательным к заполнению.
+- required (необязательно): Флаг, указывающий, является ли поле обязательным.
+- choices (необязательно): Список вариантов для полей типа select. Формат массив строк
 
-## Code scaffolding
+Можно изменять JSON на странице проекта (соблюдая структуру файла JSON). По нажатию на кнопку "обновить форму" форма будет собрана заново на основе нового JSON
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Валидация полей: 
+Форма поддерживает валидацию полей на стороне клиента. Если поле обязательное, то оно должно быть заполнено перед отправкой формы.
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Отправка данных: 
+Все данные формы отправляются на сервер в виде единой модели testForm.
