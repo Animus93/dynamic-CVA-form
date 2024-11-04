@@ -1,12 +1,19 @@
+.wrapper {
+  display: flex;
+}
+
 .container {
-  margin-left: 135px;
-  margin-top: 87px;
+  flex: 2;
+  padding: 24px;
+  box-sizing: border-box;
+  //margin-left: 135px;
+  //margin-top: 87px;
   color: rgb(0, 0, 0);
   font-family: sans-serif;
   display: flex;
   flex-direction: column;
   row-gap: 42px;
-  width: min(80vw, 1280px);
+  max-width: min(80vw, 800px);
 }
 
 .title {
@@ -30,7 +37,7 @@
 }
 
 .input {
-  width: 500px;
+  width: 100%;
 }
 
 .onSubmit {
@@ -71,9 +78,78 @@
   display: flex;
   align-items: center;
   min-height: 44px;
+  flex-shrink: 0;
 }
+
 .label-content {
   display: contents;
+}
+
+.input-option {
+  display: flex;
+  column-gap: 15px;
+  max-width: 500px;
+  width: 100%;
+
+}
+
+.input-options {
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+  flex: 1;
+}
+
+.option-btn {
+  display: flex;
+  column-gap: 7px;
+  align-items: center;
+  background: none;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+}
+
+.remove {
+  background: #FC6363;
+  rotate: 45deg;
+  border: none !important;
+}
+
+.plus {
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  position: relative;
+  font-family: sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.plus::before,
+.plus::after {
+  content: '';
+  position: absolute;
+  background: black;
+}
+
+.plus::before {
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+}
+
+.plus::after {
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 1px;
+  transform: translate(-50%, -50%);
 }
 
 .checkbox-options {
@@ -88,14 +164,14 @@
 
 .option {
   display: flex;
-  flex-direction: row-reverse;
+  //flex-direction: row-reverse;
   align-items: center;
   column-gap: 10px;
-  flex: 1;
+  //flex: 1;
 }
 
 .option-name {
-  flex: 1;
+  //flex: 1;
 }
 
 .bold {
@@ -104,4 +180,28 @@
 
 .error {
   color: red;
+}
+
+.data {
+  flex: 1;
+  width: 100%;
+}
+
+.form {
+  font-size: 14px;
+  background: #2b2b2b;
+  color: #5a93e8;
+  width: 100%;
+  height: 90vh;
+  resize: none;
+}
+
+.refresh {
+  background: #2b2b2b;
+  color: #a4c161;
+  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
 }

@@ -1,72 +1,112 @@
-<div class="container">
-  <div class="title">Анкета</div>
-  <div [formGroup]="testForm" class="content">
-    @for (field of formFields; track field) {
-      @switch (field.type) {
-        @case ('text') {
-          <div class="field">
-            <div class="label">
-              <div>
-                <div class="label-content">{{ field.label }}</div>
-                @if (testForm.get(field.name)?.hasValidator(Validators.required)) {
-                  <label class="error">*</label>
-                }
+<div class="wrapper">
+  <div class="container">
+    <div class="title">Анкета</div>
+    <div [formGroup]="testForm" class="content">
+      @for (field of formFields; track field) {
+        @switch (field.type) {
+          @case ('text') {
+            <div class="field">
+              <div class="label">
+                <div>
+                  <div class="label-content">{{ field.label }}</div>
+                  @if (testForm.get(field.name)?.hasValidator(Validators.required)) {
+                    <label class="error">*</label>
+                  }
+                </div>
               </div>
-            </div>
-            <app-test-input class="input" [formControlName]="field.name"></app-test-input>
-          </div>
-        }
-        @case ('number') {
-          <div class="field">
-            <div class="label">
-              <div>
-                <div class="label-content">{{ field.label }}</div>
-                @if (testForm.get(field.name)?.hasValidator(Validators.required)) {
-                  <label class="error">*</label>
-                }
-              </div>
-            </div>
-            <app-test-number class="number" [formControlName]="field.name"></app-test-number>
-          </div>
-        }
-        @case ('select') {
-          <div class="field">
-            <div class="label">
-              <div>
-                <div class="label-content">{{ field.label }}</div>
-                @if (testForm.get(field.name)?.hasValidator(Validators.required)) {
-                  <label class="error">*</label>
-                }
-              </div>
-            </div>
-            <app-test-select class="select" [formControlName]="field.name" [options]="field.choices"></app-test-select>
-          </div>
-        }
-        @case ('checkbox') {
-          <div [formArrayName]="field.name" class="field">
-            <div class="label">
-              <div>
-                <div class="label-content">{{ field.label }}</div>
-                @if (testForm.get(field.name)?.hasValidator(Validators.required)) {
-                  <label class="error">*</label>
-                }
-              </div>
-            </div>
-            <div class="checkbox-options">
-              @for (option of getFormArray(field.name).controls; track option; let i = $index) {
-                <div class="option" [class.bold]="field.choices.length === i">
-                  <div class="option-name">{{ field.choices.length === i ? 'Выделить все' : field.choices[i] }}</div>
-                  <app-test-checkbox formControlName="checkbox" [formControlName]="i"></app-test-checkbox>
+              @if (field.multiple) {
+                <div [formArrayName]="field.name" class="input-options">
+                  @for (option of getFormArray(field.name).controls; track option; let i = $index) {
+                    <div class="input-option">
+                      <app-test-input class="input" [formControlName]="i"></app-test-input>
+                      @if (getFormArray(field.name).controls.length == i + 1) {
+                        @if (i !== 0) {
+                          <button (click)="removeFieldFromArray(getFormArray(field.name),i)" class="option-btn">
+                            <div class="plus remove"></div>
+                          </button>
+                        }
+                        <button
+                          [class.submit-disabled]="getFormArray(field.name).controls[i].value.length == 0"
+                          [disabled]="getFormArray(field.name).controls[i].value.length == 0"
+                          (click)="addFieldInArray(getFormArray(field.name))" class="option-btn">
+                          <div class="plus"></div>
+                          <div>Добавить еще</div>
+                        </button>
+                      }
+                    </div>
+                  }
+                </div>
+              } @else {
+                <div class="input-option">
+                  <app-test-input class="input" [formControlName]="field.name"></app-test-input>
                 </div>
               }
             </div>
-          </div>
+          }
+          @case ('number') {
+            <div class="field">
+              <div class="label">
+                <div>
+                  <div class="label-content">{{ field.label }}</div>
+                  @if (testForm.get(field.name)?.hasValidator(Validators.required)) {
+                    <label class="error">*</label>
+                  }
+                </div>
+              </div>
+              <app-test-number class="number" [formControlName]="field.name"></app-test-number>
+            </div>
+          }
+          @case ('select') {
+            <div class="field">
+              <div class="label">
+                <div>
+                  <div class="label-content">{{ field.label }}</div>
+                  @if (testForm.get(field.name)?.hasValidator(Validators.required)) {
+                    <label class="error">*</label>
+                  }
+                </div>
+              </div>
+              <app-test-select class="select" [formControlName]="field.name"
+                               [options]="field.choices"></app-test-select>
+            </div>
+          }
+          @case ('checkbox') {
+            <div [formArrayName]="field.name" class="field">
+              <div class="label">
+                <div>
+                  <div class="label-content">{{ field.label }}</div>
+                  @if (testForm.get(field.name)?.hasValidator(Validators.required)) {
+                    <label class="error">*</label>
+                  }
+                </div>
+              </div>
+              <div class="checkbox-options">
+                @for (option of getFormArray(field.name).controls; track option; let i = $index) {
+                  <div class="option" [class.bold]="field.choices.length === i">
+                    <app-test-checkbox formControlName="checkbox" [formControlName]="i"></app-test-checkbox>
+                    <div class="option-name">{{ field.choices.length === i ? 'Выделить все' : field.choices[i] }}
+                      @if (getFormArray(field.name)?.get([i])?.hasValidator(Validators.required)) {
+                        <label class="error">*</label>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
         }
       }
-    }
+    </div>
+    <button [disabled]="testForm.invalid" (click)="submit()"
+            [class]="{'onSubmit':true,'submit-active':testForm.valid,'submit-disabled':testForm.invalid}">
+      Отправить
+    </button>
   </div>
-  <button [disabled]="testForm.invalid"
-          [class]="{'onSubmit':true,'submit-active':testForm.valid,'submit-disabled':testForm.invalid}">
-    Отправить
-  </button>
+
+  <div class="data">
+    <textarea (input)="formData = $event" class="form">
+    {{ formFields |json }}
+    </textarea>
+    <button class="refresh" (click)="formService.updateData(formData)"> Обновить форму</button>
+  </div>
 </div>

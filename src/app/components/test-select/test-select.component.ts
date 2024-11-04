@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  forwardRef,
+  forwardRef, HostListener,
   Input,
   input,
   OnDestroy,
@@ -36,7 +36,15 @@ export class TestSelectComponent implements ControlValueAccessor {
   public onChange!: (value: any) => void;
   public onTouched!: () => void;
 
-  constructor(private _renderer: Renderer2) {
+  constructor(private _renderer: Renderer2, private elementRef: ElementRef) {
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside) {
+      this.showOptions = false;
+    }
   }
 
   registerOnChange(fn: any): void {

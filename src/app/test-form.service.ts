@@ -5,7 +5,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class TestFormService {
-  private data = {
+  public data = {
     "fields": [
       {
         "label": "Имя",
@@ -18,6 +18,7 @@ export class TestFormService {
       {
         "label": "ВУЗ",
         "name": "university",
+        "multiple": true,
         "description": "Укажите заведения, в которых вы учились.",
         "required": false,
         "type": "text"
@@ -58,7 +59,8 @@ export class TestFormService {
         "name": "skills",
         "value": ["Вождение"],
         "description": "",
-        "required": true,
+        "required": false,
+        "multiple": true,
         "type": "checkbox",
         "choices": [
           "Общение",
@@ -70,7 +72,7 @@ export class TestFormService {
           "Программирование",
           "Управление вертолетом",
           "Оперное пение"]
-      }
+      },
     ]
   }
 
@@ -78,5 +80,9 @@ export class TestFormService {
   public formData$: Observable<any> = this.formDataSubject.asObservable();
 
   constructor() {
+  }
+
+  updateData(data: any): void {
+    this.formDataSubject.next({"fields": JSON.parse(data.target.value)})
   }
 }
