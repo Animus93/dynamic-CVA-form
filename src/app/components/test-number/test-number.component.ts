@@ -45,12 +45,12 @@ export class TestNumberComponent implements ControlValueAccessor, OnDestroy {
   }
 
   increase(): void {
-    this.input.setValue(this.input.value + 1)
+    this.input.setValue(Number(this.input.value + 1))
   }
 
   decrease(): void {
     if ((this.input.value - 1) > 0) {
-      this.input.setValue(this.input.value - 1)
+      this.input.setValue(Number(this.input.value - 1))
     }
   }
 

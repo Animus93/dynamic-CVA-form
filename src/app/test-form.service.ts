@@ -10,14 +10,15 @@ export class TestFormService {
       {
         "label": "Имя",
         "name": "name",
-        "value": "Василий",
-        "description": "",
+        "value": "",
+        "description": "Укажите ваше имя",
         "required": true,
         "type": "text"
       },
       {
         "label": "ВУЗ",
         "name": "university",
+        "value": "",
         "multiple": true,
         "description": "Укажите заведения, в которых вы учились.",
         "required": false,
@@ -25,6 +26,7 @@ export class TestFormService {
       },
       {
         "label": "Возраст",
+        "value": "",
         "name": "age",
         "description": "",
         "required": true,
@@ -32,6 +34,7 @@ export class TestFormService {
       },
       {
         "label": "Семейное положение",
+        "value": "",
         "name": "maritalStatus",
         "description": "",
         "required": true,
@@ -41,6 +44,7 @@ export class TestFormService {
       {
         "label": "Место рождения",
         "name": "birthPlace",
+        "value": "",
         "description": "",
         "required": false,
         "type": "select",
@@ -83,6 +87,8 @@ export class TestFormService {
   }
 
   updateData(data: any): void {
-    this.formDataSubject.next({"fields": JSON.parse(data.target.value)})
+    if (data) {
+      this.formDataSubject.next({"fields": JSON.parse(data?.target?.value)})
+    }
   }
 }

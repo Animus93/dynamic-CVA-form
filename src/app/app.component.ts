@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {TestInputComponent} from './components/test-input/test-input.component';
 import {
@@ -10,7 +10,7 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
-import {Subject, takeUntil} from 'rxjs';
+import {Subject, takeUntil, tap} from 'rxjs';
 import {TestFormService} from './test-form.service';
 import {TestNumberComponent} from './components/test-number/test-number.component';
 import {TestSelectComponent} from './components/test-select/test-select.component';
@@ -29,17 +29,22 @@ export class AppComponent implements OnInit, OnDestroy {
   private unsubscribeAll = new Subject<any>();
   public testForm: FormGroup = new FormGroup({});
   public formFields: any[] = [];
+  // для динамического обновления входящих данных формы
   public formData: any;
+  public loading: boolean = false
 
-  constructor(public formService: TestFormService) {
+  constructor(public formService: TestFormService, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.formService.formData$.pipe(takeUntil(this.unsubscribeAll)).subscribe(data => {
+    this.formService.formData$.pipe(tap(data => this.loading = true),
+      takeUntil(this.unsubscribeAll)
+    ).subscribe(data => {
       this.formFields = data.fields
-      console.log('data', data)
       this.testForm = new FormGroup({})
+      this.cdr.detectChanges()
       this.createForm()
+      this.loading = false
     })
   }
 
@@ -71,17 +76,25 @@ export class AppComponent implements OnInit, OnDestroy {
             if (index !== arr.length - 1) {
               control.setValue(data)
             } else {
-              console.log(control)
             }
           })
         })
       } else if (field.multiple) {
-        this.testForm.addControl(field.name, new FormArray(field.value ?? [new FormControl('', validators)], validators), {emitEvent: false});
+        this.testForm.addControl(field.name, new FormArray([], validators), {emitEvent: false});
+        const formArray = this.testForm.get(field.name) as FormArray;
+        if (field.value) {
+          field.value = Array.isArray(field.value) ? field.value : [field.value]
+          field.value.forEach((value: any) => {
+            formArray.push(new FormControl(value, validators), {emitEvent: false})
+          })
+          this.testForm.addControl(field.name, new FormArray([new FormControl('', validators)], validators), {emitEvent: false})
+        } else {
+          formArray.push(new FormControl('', validators), {emitEvent: false})
+        }
       } else {
         this.testForm.addControl(field.name, new FormControl(field.value ?? '', validators), {emitEvent: false});
       }
     })
-    console.log(this.testForm)
   }
 
   addFieldInArray(formArray: FormArray): void {
@@ -126,4 +139,5 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   protected readonly Validators = Validators;
+  protected readonly length = length;
 }
